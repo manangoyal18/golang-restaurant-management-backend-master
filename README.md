@@ -22,6 +22,7 @@ golang-restaurant-management-backend/
 ## 🚀 Features
 
 ### Core Functionality
+
 - **User Management**: Registration, authentication, and profile management
 - **Menu Management**: Create and organize restaurant menus by category
 - **Food Item Management**: CRUD operations for food items with pricing and images
@@ -32,6 +33,7 @@ golang-restaurant-management-backend/
 - **JWT Authentication**: Secure token-based authentication system
 
 ### Technical Features
+
 - **RESTful API Design**: Clean, predictable API endpoints
 - **JWT Token Security**: Access and refresh token system
 - **Input Validation**: Comprehensive data validation using struct tags
@@ -60,18 +62,22 @@ Before running this application, ensure you have the following installed:
 ## 🔧 Installation & Setup
 
 ### 1. Clone the Repository
+
 ```bash
 git clone <repository-url>
 cd golang-restaurant-management-backend-master
 ```
 
 ### 2. Install Dependencies
+
 ```bash
 go mod tidy
 ```
 
 ### 3. Environment Setup
+
 Create a `.env` file in the root directory (optional - the app uses defaults):
+
 ```env
 PORT=8000
 SECRET_KEY=your-jwt-secret-key
@@ -79,7 +85,9 @@ MONGODB_URI=mongodb://localhost:27017
 ```
 
 ### 4. Start MongoDB
+
 Ensure MongoDB is running locally:
+
 ```bash
 # On macOS with Homebrew
 brew services start mongodb-community
@@ -92,6 +100,7 @@ net start MongoDB
 ```
 
 ### 5. Run the Application
+
 ```bash
 go run main.go
 ```
@@ -103,6 +112,7 @@ The server will start on `http://localhost:8000` (or the port specified in your 
 ### Authentication Endpoints (Public)
 
 #### User Registration
+
 ```http
 POST /users/signup
 Content-Type: application/json
@@ -117,6 +127,7 @@ Content-Type: application/json
 ```
 
 #### User Login
+
 ```http
 POST /users/login
 Content-Type: application/json
@@ -130,45 +141,53 @@ Content-Type: application/json
 ### Protected Endpoints (Require Authentication)
 
 All endpoints below require a valid JWT token in the header:
+
 ```http
 token: your-jwt-token-here
 ```
 
 #### User Management
+
 - `GET /users` - Get paginated list of users
 - `GET /users/:user_id` - Get specific user details
 
-#### Food Management  
+#### Food Management
+
 - `GET /foods` - Get all food items
 - `GET /foods/:food_id` - Get specific food item
 - `POST /foods` - Create new food item
 - `PATCH /foods/:food_id` - Update food item
 
 #### Menu Management
+
 - `GET /menus` - Get all menus
 - `GET /menus/:menu_id` - Get specific menu
 - `POST /menus` - Create new menu
 - `PATCH /menus/:menu_id` - Update menu
 
 #### Table Management
+
 - `GET /tables` - Get all tables
 - `GET /tables/:table_id` - Get specific table
 - `POST /tables` - Create new table
 - `PATCH /tables/:table_id` - Update table
 
 #### Order Management
+
 - `GET /orders` - Get all orders
 - `GET /orders/:order_id` - Get specific order
 - `POST /orders` - Create new order
 - `PATCH /orders/:order_id` - Update order
 
 #### Order Items Management
+
 - `GET /orderItems` - Get all order items
 - `GET /orderItems/:order_item_id` - Get specific order item
 - `POST /orderItems` - Create new order item
 - `PATCH /orderItems/:order_item_id` - Update order item
 
 #### Invoice Management
+
 - `GET /invoices` - Get all invoices
 - `GET /invoices/:invoice_id` - Get specific invoice
 - `POST /invoices` - Create new invoice
@@ -179,11 +198,12 @@ token: your-jwt-token-here
 The application uses MongoDB with the following collections:
 
 ### Users Collection
+
 ```json
 {
   "_id": "ObjectId",
   "first_name": "string",
-  "last_name": "string", 
+  "last_name": "string",
   "email": "string",
   "password": "string (hashed)",
   "avatar": "string (optional)",
@@ -197,6 +217,7 @@ The application uses MongoDB with the following collections:
 ```
 
 ### Food Collection
+
 ```json
 {
   "_id": "ObjectId",
@@ -211,6 +232,7 @@ The application uses MongoDB with the following collections:
 ```
 
 ### Menu Collection
+
 ```json
 {
   "_id": "ObjectId",
@@ -225,6 +247,7 @@ The application uses MongoDB with the following collections:
 ```
 
 ### Orders Collection
+
 ```json
 {
   "_id": "ObjectId",
@@ -237,6 +260,7 @@ The application uses MongoDB with the following collections:
 ```
 
 ### Tables Collection
+
 ```json
 {
   "_id": "ObjectId",
@@ -256,6 +280,7 @@ The application uses MongoDB with the following collections:
 4. **Token Refresh**: Use refresh token to get new access tokens when expired
 
 ### Token Lifespans
+
 - **Access Token**: 24 hours
 - **Refresh Token**: 7 days (168 hours)
 
@@ -264,13 +289,14 @@ The application uses MongoDB with the following collections:
 You can test the API using tools like Postman, curl, or any HTTP client:
 
 ### Example: Create a user and make authenticated request
+
 ```bash
 # 1. Register a user
 curl -X POST http://localhost:8000/users/signup \
   -H "Content-Type: application/json" \
   -d '{
     "first_name": "Test",
-    "last_name": "User", 
+    "last_name": "User",
     "email": "test@example.com",
     "password": "password123",
     "phone": "1234567890"
@@ -295,26 +321,11 @@ curl -X GET http://localhost:8000/foods \
 
 - **main.go**: Application entry point, sets up routes and middleware
 - **controllers/**: Contains business logic and HTTP handlers for each entity
-- **models/**: Defines data structures and MongoDB document schemas  
+- **models/**: Defines data structures and MongoDB document schemas
 - **routes/**: Groups related routes and applies middleware
 - **middleware/**: Authentication and other HTTP middleware
 - **helpers/**: Utility functions, primarily JWT token management
 - **database/**: MongoDB connection and collection management
-
-### Adding New Features
-
-1. **Create Model**: Define the data structure in `models/`
-2. **Create Controller**: Implement business logic in `controllers/`
-3. **Create Routes**: Define HTTP endpoints in `routes/`
-4. **Update Main**: Register new routes in `main.go`
-
-## 🚨 Security Considerations
-
-- Passwords are hashed using bcrypt with cost factor 14
-- JWT tokens are signed with a secret key (set via environment variable)
-- Input validation on all user inputs
-- Authentication required for all sensitive operations
-- No sensitive data logged or exposed in responses
 
 ## ⚙️ Configuration
 
@@ -323,43 +334,3 @@ The application can be configured via environment variables:
 - `PORT`: Server port (default: 8000)
 - `SECRET_KEY`: JWT signing key (recommended for production)
 - `MONGODB_URI`: MongoDB connection string (default: localhost:27017)
-
-## 🐛 Troubleshooting
-
-### Common Issues
-
-1. **MongoDB Connection Failed**
-   - Ensure MongoDB is running on localhost:27017
-   - Check if MongoDB service is started
-
-2. **Port Already in Use**
-   - Set a different PORT environment variable
-   - Kill any processes using port 8000
-
-3. **JWT Token Invalid**
-   - Check if SECRET_KEY is set consistently
-   - Ensure token is sent in the correct header field ('token')
-
-4. **Validation Errors**
-   - Check request body format matches model requirements
-   - Ensure required fields are provided
-
-## 📝 Additional Notes
-
-- The application uses MongoDB's "restaurant" database automatically
-- All timestamps are stored in RFC3339 format
-- Object IDs are converted to strings for easier API consumption
-- The application supports pagination for list endpoints
-- CORS is not configured - add middleware if needed for browser clients
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes with appropriate comments
-4. Test your changes thoroughly
-5. Submit a pull request with a clear description
-
-## 📄 License
-
-This project is for educational purposes. Please check with the original author for licensing information.
