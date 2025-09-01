@@ -12,15 +12,17 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
-	"github.com/go-playground/validator/v10"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
+// foodCollection is a global reference to the MongoDB "food" collection
+// This provides access to food documents in the database
 var foodCollection *mongo.Collection = database.OpenCollection(database.Client, "food")
-var validate = validator.New()
+
+// Note: validate variable is declared in userController.go and shared across the controller package
 
 func GetFoods() gin.HandlerFunc {
 	return func(c *gin.Context) {
